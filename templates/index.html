@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Plan Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .best-plan {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .purchase-links {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .purchase-links h3 {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .purchase-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .purchase-links li {
+            margin: 5px 0;
+        }
+
+        .purchase-links a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .purchase-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nigerian Data Plan Calculator</h1>
+        <form method="POST">
+            <label for="budget">Enter your budget (₦):</label>
+            <input type="number" id="budget" name="budget" required>
+            
+            <label for="provider">Choose your network provider:</label>
+            <select id="provider" name="provider">
+                {% for provider in providers %}
+                    <option value="{{ provider }}">{{ provider }}</option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit">Find Best Plan</button>
+        </form>
+
+        {% if best_plan %}
+            <div class="best-plan">
+                <h2>Best Available Plan</h2>
+                <p>{{ best_plan[0] }} for ₦{{ best_plan[1] }} ({{ best_plan[2] }} plan)</p>
+            </div>
+
+            <div class="purchase-links">
+                <h3>Where to Buy:</h3>
+                <ul>
+                    <li><a href="#" target="_blank">MTN (MyMTN App)</a></li>
+                    <li><a href="#" target="_blank">Airtel (Airtel App)</a></li>
+                    <li><a href="#" target="_blank">Glo (GloCafe App)</a></li>
+                    <li><a href="#" target="_blank">9mobile (9mobile App)</a></li>
+                    <li><a href="https://dewallet.app/" target="_blank">D.E wallet</a></li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+As of February 20, 2025, Nigerian telecommunications providers—MTN, Airtel, Glo, and 9mobile—have implemented significant changes to their data plans and pricing structures. Below is a comprehensive overview of the current offerings:
+
+## MTN Nigeria Data Plans
+
+### Hourly Plans:
+- **400MB Plan:** ₦100 (valid for 1 hour)
+
+### Daily Plans:
+- **75MB Plan:** ₦75 (valid for 1 day)
+- **1GB Plan:** ₦350 (valid for 1 day)
+- **2.5GB Plan:** ₦600 (valid for 2 days)
+
+### Weekly Plans:
+- **5GB Plan:** ₦1,500 (valid for 7 days)
+
+### Monthly Plans:
+- **1.8GB Plan:** ₦1,500
+- **4.25GB Plan:** ₦3,000
+- **5.5GB Plan:** ₦3,500
+- **8GB Plan:** ₦3,000
+- **11GB Plan:** ₦5,000
+- **15GB Plan:** ₦6,500
+- **20GB Plan:** ₦7,500
+- **25GB Plan:** ₦9,000
+- **32GB Plan:** ₦11,000
+- **75GB Plan:** ₦20,000
+- **120GB Plan:** ₦22,000
+- **200GB Plan:** ₦30,000
+
+### Extended Plans:
+- **30GB Plan:** ₦8,000 (valid for 2 months)
+- **100GB Plan:** ₦20,000 (valid for 2 months)
+- **160GB Plan:** ₦30,000 (valid for 2 months)
+- **400GB Plan:** ₦50,000 (valid for 3 months)
+- **600GB Plan:** ₦75,000 (valid for 3 months)
+- **800GB Plan:** ₦90,000 (valid for 6 months)
+- **1TB Plan:** ₦100,000 (valid for 1 year)
+- **2.5TB Plan:** ₦250,000 (valid for 1 year)
+- **4.5TB Plan:** ₦450,000 (valid for 1 year)
+
+## Airtel Nigeria Data Plans
+
+### Daily Plans:
+- **1GB Plan:** ₦525 (valid for 1 day)
+
+### Weekly Plans:
+- **5GB Plan:** ₦2,250 (valid for 7 days)
+
+### Monthly Plans:
+- **2GB Plan:** ₦1,500
+- **3GB Plan:** ₦2,000
+- **4GB Plan:** ₦2,500
+- **8GB Plan:** ₦3,000
+- **10GB Plan:** ₦4,000
+- **13GB Plan:** ₦5,000
+- **18GB Plan:** ₦6,000
+- **25GB Plan:** ₦8,000
+
+## Glo Nigeria Data Plans
+
+### Daily Plans:
+- **1GB Plan:** ₦525 (valid for 1 day)
+
+### Weekly Plans:
+- **1.25GB Plan:** ₦525 (valid for 7 days)
+
+### Monthly Plans:
+- **10.8GB Plan:** ₦3,000
+- **24GB Plan:** ₦7,500
+
+## 9mobile Nigeria Data Plans
+
+### Daily Plans:
+- **1GB Plan:** ₦525 (valid for 1 day)
+
+### Weekly Plans:
+- **7GB Plan:** ₦2,250 (valid for 7 days)
+
+### Monthly Plans:
+- **9.5GB Plan:** ₦3,750
+- **22GB Plan:** ₦7,500
+
+### Important Notes:
+- Some previously available plans, such as the 10GB hourly plan and certain yearly bundles, have been discontinued.
+- A 50-200% price increase has been implemented across various plans following the Nigerian Communications Commission (NCC) tariff hike.
+- For the most current information, visit the official websites or apps of MTN, Airtel, Glo, and 9mobile.
+
