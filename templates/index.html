@@ -5,129 +5,319 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Plan Calculator</title>
     <style>
+        /* Add improved CSS styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 500px;
+            margin: 1rem;
         }
 
         h1 {
-            color: #333;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
 
         label {
-            font-weight: bold;
+            font-weight: 600;
+            color: #333;
+            margin: 0.8rem 0 0.4rem;
             display: block;
-            margin: 10px 0 5px;
+            text-align: left;
         }
 
-        input, select, button {
+        input, select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
         }
 
         button {
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
-            font-weight: bold;
-            cursor: pointer;
+            padding: 1rem;
             border: none;
-            transition: background 0.3s;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
         }
 
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
 
         .best-plan {
-            background: #e3f2fd;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 15px;
+            background-color: #e6f4ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .best-plan h2 {
+            color: #004085;
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .best-plan p {
+            color: #004085;
+            margin: 0;
+            font-size: 1.1rem;
         }
 
         .purchase-links {
-            margin-top: 20px;
+            margin-top: 1.5rem;
             text-align: left;
         }
 
         .purchase-links h3 {
-            margin-bottom: 5px;
-            color: #555;
+            color: #333;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
         }
 
         .purchase-links ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .purchase-links li {
-            margin: 5px 0;
+            margin: 0.5rem 0;
         }
 
         .purchase-links a {
-            text-decoration: none;
             color: #007bff;
-            font-weight: bold;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
         }
 
         .purchase-links a:hover {
+            color: #0056b3;
             text-decoration: underline;
+        }
+
+        .error-message {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .no-plan {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .plan-category {
+            margin: 2rem 0;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .plan-category h3 {
+            color: #1a1a1a;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .plan-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .best-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ffd700;
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .plan-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .plan-duration {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .plan-price {
+            color: #007bff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .plan-data {
+            color: #28a745;
+            font-size: 1rem;
+        }
+
+        .plan-cost-per-gb {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .plan-value {
+            color: #17a2b8;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .ussd-code {
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Nigerian Data Plan Calculator</h1>
+        <h1> Croesus Data Plan Calculator</h1>
         <form method="POST">
-            <label for="budget">Enter your budget (₦):</label>
-            <input type="number" id="budget" name="budget" required>
+            <label for="budget">Your Budget (₦)</label>
+            <input type="number" id="budget" name="budget" required min="1" placeholder="Enter amount in naira">
             
-            <label for="provider">Choose your network provider:</label>
+            <label for="provider">Network Provider</label>
             <select id="provider" name="provider">
                 {% for provider in providers %}
-                    <option value="{{ provider }}">{{ provider }}</option>
+                    <option value="{{ provider }}" {% if provider == selected_provider %}selected{% endif %}>
+                        {{ provider }}
+                    </option>
                 {% endfor %}
             </select>
             
             <button type="submit">Find Best Plan</button>
         </form>
 
-        {% if best_plan %}
-            <div class="best-plan">
-                <h2>Best Available Plan</h2>
-                <p>{{ best_plan[0] }} for ₦{{ best_plan[1] }} ({{ best_plan[2] }} plan)</p>
-            </div>
+        {% if searched %}
+            {% if error %}
+                <div class="error-message">
+                    ⚠️ {{ error }}
+                </div>
+            {% elif eligible_plans %}
+                {% if ussd_code %}
+                    <div class="ussd-code">
+                        📞 Quick Purchase: Dial <code>{{ ussd_code }}</code>
+                    </div>
+                {% endif %}
 
-            <div class="purchase-links">
-                <h3>Where to Buy:</h3>
-                <ul>
-                    <li><a href="#" target="_blank">MTN (MyMTN App)</a></li>
-                    <li><a href="#" target="_blank">Airtel (Airtel App)</a></li>
-                    <li><a href="#" target="_blank">Glo (GloCafe App)</a></li>
-                    <li><a href="#" target="_blank">9mobile (9mobile App)</a></li>
-                    <li><a href="https://dewallet.app/" target="_blank">D.E wallet</a></li>
-                </ul>
-            </div>
+                {% for category in categories %}
+                    {% set plans = eligible_plans.get(category, []) %}
+                    {% if plans %}
+                        <div class="plan-category">
+                            <h3>{{ category | title }} Plans</h3>
+                            {% for plan in plans %}
+                                <div class="plan-card">
+                                    {% if loop.first %}
+                                        <div class="best-badge">⭐ Best Value</div>
+                                    {% endif %}
+                                    <div class="plan-name">{{ plan.name }}</div>
+                                    <div class="plan-duration">{{ plan.duration | title }}</div>
+                                    <div class="plan-price">{{ plan.price | format_currency }}</div>
+                                    <div class="plan-data">{{ plan.data_mb | format_gb }}</div>
+                                    <div class="plan-cost-per-gb">₦{{ "%.2f" | format(plan.cost_per_gb) }} per GB</div>
+                                    <div class="plan-value">{{ "%.1f" | format(plan.value_score) }} MB per ₦</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                </div>
+
+                <div class="purchase-links">
+                    <h3>📱 Purchase Options:</h3>
+                    <ul>
+                        <li>
+                            <a href="https://www.mtn.ng/personal/my-mtn-app/" target="_blank" rel="noopener">
+                                MTN MyMTN App
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.airtel.com.ng/personal/apps/airtel-app" target="_blank" rel="noopener">
+                                Airtel App
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.gloworld.com/ng/personal/data/glo-cafe-app" target="_blank" rel="noopener">
+                                Glo Cafe App
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://9mobile.com.ng/download-my9mobile-app" target="_blank" rel="noopener">
+                                9mobile App
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://dewallet.app/" target="_blank" rel="noopener">
+                                D.E Wallet
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="no-plan">
+                    😞 No plans found within your budget. Try increasing your budget.
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 </body>

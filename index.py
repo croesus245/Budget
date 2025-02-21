@@ -1,6 +1,33 @@
 from flask import Flask, render_template, request
+import re
 
 app = Flask(__name__)
+
+# Custom filter for currency formatting
+@app.template_filter('format_currency')
+def format_currency(value):
+    return "₦{:,.0f}".format(value)
+
+# Custom filter for GB formatting
+@app.template_filter('format_gb')
+def format_gb(value):
+    return "{:.1f}GB".format(value/1000) if value >= 1000 else "{:.0f}MB".format(value)
+
+def parse_data_allowance(plan_name):
+    """Convert data allowance string to MB as integer"""
+    match = re.match(r"([\d.]+)\s*([GTM]B)", plan_name, re.IGNORECASE)
+    if not match:
+        return 0
+    amount, unit = match.groups()
+    amount = float(amount)
+    unit = unit.upper()
+    if unit == 'TB':
+        return int(amount * 1e6)
+    elif unit == 'GB':
+        return int(amount * 1000)
+    elif unit == 'MB':
+        return int(amount)
+    return 0
 
 network_providers = {
     "MTN": {
@@ -32,37 +59,101 @@ network_providers = {
     }
 }
 
-def find_best_plan(provider, budget):
-    best_plan = None
-    for duration, plans in network_providers[provider].items():
-        for plan_info in plans:
-           
-            plan_name = plan_info[0]
-            plan_price = plan_info[1]
-            plan_duration = duration
+provider_ussd = {
+    "MTN": "*131#",
+    "Airtel": "*141#",
+    "Glo": "*127*0#",
+    "9mobile": "*200#"
+}
 
-            if plan_price <= budget and (best_plan is None or plan_price > best_plan[1]):
-                best_plan = (plan_name, plan_price, plan_duration)
+def get_eligible_plans(provider, budget):
+    eligible_plans = {
+        'hourly': [],
+        'daily': [],
+        'weekly': [],
+        'monthly': [],
+        'extended': []
+    }
     
-    return best_plan
+    for duration_key, plans in network_providers[provider].items():
+        for plan in plans:
+            if duration_key == "extended":
+                plan_name, price, duration = plan
+            else:
+                plan_name, price = plan[:2]
+                duration = duration_key
+            
+            if price > budget:
+                continue
+            
+            data_mb = parse_data_allowance(plan_name)
+            if not data_mb:
+                continue
+            
+            data_gb = data_mb / 1000
+            cost_per_gb = price / data_gb if data_gb > 0 else 0
+            value_score = data_mb / price if price > 0 else 0
+            
+            plan_details = {
+                'name': plan_name,
+                'price': price,
+                'duration': duration,
+                'data_mb': data_mb,
+                'data_gb': data_gb,
+                'cost_per_gb': cost_per_gb,
+                'value_score': value_score
+            }
+            
+            category = 'extended' if duration_key == 'extended' else duration_key
+            eligible_plans[category].append(plan_details)
+    
+    # Sort plans in each category by value score (descending) and price (ascending)
+    for category in eligible_plans:
+        eligible_plans[category].sort(
+            key=lambda x: (-x['value_score'], x['price']),
+            reverse=False
+        )
+    
+    return eligible_plans
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    best_plan = None
+    eligible_plans = None
+    selected_provider = None
+    error = None
+    searched = False
+    ussd_code = None
+
     if request.method == 'POST':
-        budget = request.form.get('budget')
+        searched = True
+        budget_str = request.form.get('budget', '').strip()
         provider = request.form.get('provider')
-
-        if budget and provider in network_providers:
+        
+        if not provider or provider not in network_providers:
+            error = "Please select a valid network provider."
+        else:
             try:
-                budget = int(budget)
-                best_plan = find_best_plan(provider, budget)
+                budget = int(budget_str)
+                if budget <= 0:
+                    error = "Budget must be a positive number."
+                else:
+                    eligible_plans = get_eligible_plans(provider, budget)
+                    ussd_code = provider_ussd.get(provider)
             except ValueError:
-                best_plan = None  
+                error = "Please enter a valid numeric budget."
 
-    return render_template('index.html', best_plan=best_plan, providers=network_providers.keys())
+        selected_provider = provider
+
+    return render_template(
+        'index.html',
+        eligible_plans=eligible_plans,
+        providers=network_providers.keys(),
+        selected_provider=selected_provider,
+        error=error,
+        searched=searched,
+        ussd_code=ussd_code,
+        categories=['hourly', 'daily', 'weekly', 'monthly', 'extended']
+    )
 
 if __name__ == '__main__':
-   
-    app.run(host="0.0.0.0", debug=False)
-
+    app.run(host="0.0.0.0", debug=True)
