@@ -60,8 +60,7 @@ network_providers = {
 }
 
 provider_ussd = {
-    "MTN": "*312*88# for 1.5gb@200",
-     "MTN": "*121# for 13gb@2K",
+    "MTN": "*312*88# for 1.5gb@200 and *121# for 13gb@2K",
     "Airtel": "*312#",
     "Glo": "*312#",
     "9mobile": "*200#"
