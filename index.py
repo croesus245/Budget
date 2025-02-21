@@ -3,12 +3,12 @@ import re
 
 app = Flask(__name__)
 
-# Custom filter for currency formatting
+
 @app.template_filter('format_currency')
 def format_currency(value):
     return "₦{:,.0f}".format(value)
 
-# Custom filter for GB formatting
+
 @app.template_filter('format_gb')
 def format_gb(value):
     return "{:.1f}GB".format(value/1000) if value >= 1000 else "{:.0f}MB".format(value)
@@ -34,7 +34,7 @@ network_providers = {
         "hourly": [("400MB", 100)],
         "daily": [("75MB", 75), ("1GB", 350), ("2.5GB", 600)],
         "weekly": [("5GB", 1500)],
-        "monthly": [("1.8GB", 1500), ("4.25GB", 3000), ("5.5GB", 3500), ("8GB", 3000), ("11GB", 5000),
+        "monthly": [("1.8GB", 1500),("1.5GB", 200), ("4.25GB", 3000), ("5.5GB", 3500), ("8GB", 3000), ("11GB", 5000),
                     ("15GB", 6500), ("20GB", 7500), ("25GB", 9000), ("32GB", 11000), ("75GB", 20000),
                     ("120GB", 22000), ("200GB", 30000)],
         "extended": [("30GB", 8000, "2 months"), ("100GB", 20000, "2 months"), ("160GB", 30000, "2 months"),
@@ -60,9 +60,10 @@ network_providers = {
 }
 
 provider_ussd = {
-    "MTN": "*131#",
-    "Airtel": "*141#",
-    "Glo": "*127*0#",
+    "MTN": "*312*88# for 1.5gb@200",
+     "MTN": "*121# for 13gb@2K",
+    "Airtel": "*312#",
+    "Glo": "*312#",
     "9mobile": "*200#"
 }
 
