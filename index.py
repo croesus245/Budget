@@ -41,11 +41,16 @@ network_providers = {
                      ("400GB", 50000, "3 months"), ("600GB", 75000, "3 months"), ("800GB", 90000, "6 months"),
                      ("1TB", 100000, "1 year"), ("2.5TB", 250000, "1 year"), ("4.5TB", 450000, "1 year")]
     },
-    "Airtel": {
-        "daily": [("1GB", 525)],
-        "weekly": [("5GB", 2250)],
-        "monthly": [("2GB", 1500), ("3GB", 2000), ("4GB", 2500), ("8GB", 3000), ("10GB", 4000),
-                     ("13GB", 5000), ("18GB", 6000), ("25GB", 8000)]
+   "Airtel": {
+        "hourly": [("2GB", 200), ("5GB", 500)],
+        "daily": [("40MB", 50), ("100MB", 100), ("200MB", 200), ("1GB", 500)],
+        "weekly": [("750MB", 500), ("1GB", 500), ("6GB", 1500)],
+        "monthly": [("1.5GB", 1000), ("4.5GB", 2000), ("4GB", 2500), ("8GB", 3000), ("10GB", 4000),
+                    ("13GB", 5000), ("18GB", 6000), ("25GB", 8000)],
+        "binge": [("1GB", 500), ("1.5GB + 2GB YouTube Night + 200MB (YouTube, Instagram & TikTok)", 600),
+                  ("2GB + 2GB YouTube Night + 200MB (YouTube, Instagram & TikTok)", 750),
+                  ("3GB + 2GB YouTube Night + 200MB (YouTube, Instagram & TikTok)", 1000)],
+        "data_plus": [("4.5GB", 2000), ("15GB", 5000), ("30GB", 10000), ("60GB", 15000)]
     },
     "Glo": {
         "daily": [("1GB", 525)],
