@@ -14,20 +14,22 @@ def format_gb(value):
     return "{:.1f}GB".format(value/1000) if value >= 1000 else "{:.0f}MB".format(value)
 
 def parse_data_allowance(plan_name):
-    """Convert data allowance string to MB as integer"""
-    match = re.match(r"([\d.]+)\s*([GTM]B)", plan_name, re.IGNORECASE)
-    if not match:
-        return 0
-    amount, unit = match.groups()
-    amount = float(amount)
-    unit = unit.upper()
-    if unit == 'TB':
-        return int(amount * 1e6)
-    elif unit == 'GB':
-        return int(amount * 1000)
-    elif unit == 'MB':
-        return int(amount)
-    return 0
+    """Convert combined data allowances to total MB"""
+    matches = re.findall(r"([\d.]+)\s*([GTM]B)", plan_name, re.IGNORECASE)
+    total_mb = 0
+    
+    for amount_str, unit in matches:
+        amount = float(amount_str)
+        unit = unit.upper()
+        
+        if unit == 'TB':
+            total_mb += int(amount * 1_000_000)
+        elif unit == 'GB':
+            total_mb += int(amount * 1_000)
+        elif unit == 'MB':
+            total_mb += int(amount)
+    
+    return total_mb
 
 network_providers = {
     "MTN": {
@@ -80,34 +82,44 @@ provider_ussd = {
     "9mobile": "*200#"
 }
 
+# def get_eligible_plans(provider, budget):
+#     eligible_plans = {
+#         'hourly': [],
+#         'daily': [],
+#         'weekly': [],
+#         'monthly': [],
+#         'extended': []
+#     }
 def get_eligible_plans(provider, budget):
-    eligible_plans = {
-        'hourly': [],
-        'daily': [],
-        'weekly': [],
-        'monthly': [],
-        'extended': []
-    }
+    eligible_plans = {}
     
     for duration_key, plans in network_providers[provider].items():
         for plan in plans:
+            # Handle extended duration plans
             if duration_key == "extended":
                 plan_name, price, duration = plan
             else:
-                plan_name, price = plan[:2]
-                duration = duration_key
-            
+                # Handle regular plans with optional duration
+                if len(plan) >= 3:
+                    plan_name, price, duration = plan[0], plan[1], plan[2]
+                else:
+                    plan_name, price = plan[:2]
+                    duration = duration_key  # Use category as default duration
+
+            # Filter by budget
             if price > budget:
                 continue
-            
+
+            # Calculate data metrics
             data_mb = parse_data_allowance(plan_name)
             if not data_mb:
                 continue
-            
+
             data_gb = data_mb / 1000
             cost_per_gb = price / data_gb if data_gb > 0 else 0
             value_score = data_mb / price if price > 0 else 0
-            
+
+            # Create plan entry
             plan_details = {
                 'name': plan_name,
                 'price': price,
@@ -117,11 +129,14 @@ def get_eligible_plans(provider, budget):
                 'cost_per_gb': cost_per_gb,
                 'value_score': value_score
             }
-            
+
+            # Categorize plans
             category = 'extended' if duration_key == 'extended' else duration_key
+            if category not in eligible_plans:
+                eligible_plans[category] = []
             eligible_plans[category].append(plan_details)
-    
-    # Sort plans in each category by value score (descending) and price (ascending)
+
+    # Sort plans by value score and price
     for category in eligible_plans:
         eligible_plans[category].sort(
             key=lambda x: (-x['value_score'], x['price']),
@@ -160,13 +175,13 @@ def index():
 
     return render_template(
         'index.html',
-        eligible_plans=eligible_plans,
+        eligible_plans=eligible_plans or {},
         providers=network_providers.keys(),
         selected_provider=selected_provider,
         error=error,
         searched=searched,
         ussd_code=ussd_code,
-        categories=['hourly', 'daily', 'weekly', 'monthly', 'extended']
+        categories=list((eligible_plans or {}).keys())
     )
 
 if __name__ == '__main__':
